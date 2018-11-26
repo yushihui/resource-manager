@@ -1,11 +1,12 @@
 package com.netbrain.kc.resourcemanager.deltachange;
 
-import com.netbrain.kc.resourcemanager.assets.ResourceEnum;
+import com.netbrain.kc.resourcemanager.assets.ResourceType;
+import com.netbrain.kc.resourcemanager.release.RepoRelease;
+import com.netbrain.kc.resourcemanager.repo.GitRepo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -13,12 +14,20 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 public class DeltaChange {
-    private String repo;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "repo_id", nullable = false)
+    private GitRepo repo;
     //current version
-    private String head;
-    private String base;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "head_release", nullable = false)
+    private RepoRelease head;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "base_release", nullable = false)
+    private RepoRelease base;
     private ChangeAction action;
-    private ResourceEnum resourceType;
+    private ResourceType resourceType;
     private String resourceLocation;
     private String resourceId;
     private Date date;

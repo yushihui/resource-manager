@@ -1,14 +1,15 @@
 package com.netbrain.kc.resourcemanager.repo;
 
 
+import com.netbrain.kc.resourcemanager.release.RepoRelease;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "repo")
@@ -25,5 +26,11 @@ public class GitRepo {
     private String description;
     private RepoState state;
     private RepoType type;
+
+    @OneToMany(
+            mappedBy = "repo",
+            cascade = CascadeType.ALL
+    )
+    private List<RepoRelease> repoReleases = new ArrayList<>();
 
 }
