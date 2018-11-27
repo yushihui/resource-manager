@@ -30,6 +30,8 @@ public class GitRepo implements Serializable {
     private String description;
     private RepoState state;
     private RepoType type;
+     //TODO join customer table
+    // private String customerId;
 
     @OneToMany(
             mappedBy = "repo",
