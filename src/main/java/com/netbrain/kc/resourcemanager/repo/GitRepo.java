@@ -5,8 +5,10 @@ import com.netbrain.kc.resourcemanager.release.RepoRelease;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +18,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GitRepo {
+@ToString
+public class GitRepo implements Serializable {
+    @Id
     @Column(name = "id")
     private String id;
     private String name;
@@ -31,6 +35,7 @@ public class GitRepo {
             mappedBy = "repo",
             cascade = CascadeType.ALL
     )
+    @ToString.Exclude
     private List<RepoRelease> repoReleases = new ArrayList<>();
 
 }

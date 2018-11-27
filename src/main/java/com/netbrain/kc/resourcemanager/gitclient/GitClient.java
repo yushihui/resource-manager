@@ -1,6 +1,6 @@
 package com.netbrain.kc.resourcemanager.gitclient;
 
-import com.netbrain.kc.resourcemanager.repo.GitRelease;
+import com.netbrain.kc.resourcemanager.release.RepoRelease;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cache.annotation.Cacheable;
@@ -36,16 +36,16 @@ public class GitClient {
                 .build();
     }
 
-    public ResponseEntity<GitRelease[]> fetchReleases(String orgName, String repoName) {
-        return this.restTemplate.getForEntity(GIT_RELEASE_URL, GitRelease[].class, orgName, repoName);
+    public ResponseEntity<RepoRelease[]> fetchReleases(String orgName, String repoName) {
+        return this.restTemplate.getForEntity(GIT_RELEASE_URL, RepoRelease[].class, orgName, repoName);
     }
 
-    public ResponseEntity<GitRelease[]> fetchCompare(String orgName, String repoName, String base, String head) {
-        return this.restTemplate.getForEntity(GIT_COMPARE_URL, GitRelease[].class, orgName, repoName, base, head);
+    public ResponseEntity<RepoRelease[]> fetchCompare(String orgName, String repoName, String base, String head) {
+        return this.restTemplate.getForEntity(GIT_COMPARE_URL, RepoRelease[].class, orgName, repoName, base, head);
     }
 
     @Cacheable("releases")
-    public List<GitRelease> fetchReleaseList(String orgName, String repoName) {
+    public List<RepoRelease> fetchReleaseList(String orgName, String repoName) {
         return Arrays.asList(fetchReleases(orgName, repoName).getBody());
     }
 

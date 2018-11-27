@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.netbrain.kc.resourcemanager.deltachange.DeltaChange;
 import com.netbrain.kc.resourcemanager.repo.GitRepo;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,7 +22,8 @@ import java.util.List;
 @Entity
 @Table(name = "repo_release")
 @Data
-@NoArgsConstructor
+@ToString
+@EqualsAndHashCode
 public class RepoRelease implements Serializable {
 
     // here the repo=owner+"/"+repo
@@ -30,12 +32,19 @@ public class RepoRelease implements Serializable {
     private GitRepo repo;
     private final String name;
     private final String tag;
+
+    @EqualsAndHashCode.Exclude
     private final String description;
+
+    @EqualsAndHashCode.Exclude
     private final String releaseUrl;
+
+    @EqualsAndHashCode.Exclude
     private final Date releaseAt;
     /****
      * release id from github
      */
+    @Id
     private final long id;
     private ReleaseState state;
 
@@ -49,11 +58,6 @@ public class RepoRelease implements Serializable {
      */
     private boolean isInitial;
 
-    @OneToMany(
-            mappedBy = "repo_release",
-            cascade = CascadeType.ALL
-    )
-    private List<DeltaChange> changes = new ArrayList<>();
 
     /***
      * A git release json example See {@linktourl https://developer.github.com/v3/repos/releases/#list-releases-for-a-repository}

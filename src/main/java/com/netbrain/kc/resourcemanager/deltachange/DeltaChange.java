@@ -34,4 +34,8 @@ public class DeltaChange {
     private Resource resource;
     private Date date;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
 }
