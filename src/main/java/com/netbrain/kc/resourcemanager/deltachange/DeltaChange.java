@@ -1,6 +1,6 @@
 package com.netbrain.kc.resourcemanager.deltachange;
 
-import com.netbrain.kc.resourcemanager.assets.ResourceType;
+import com.netbrain.kc.resourcemanager.assets.Resource;
 import com.netbrain.kc.resourcemanager.release.RepoRelease;
 import com.netbrain.kc.resourcemanager.repo.GitRepo;
 import lombok.Data;
@@ -27,9 +27,11 @@ public class DeltaChange {
     @JoinColumn(name = "base_release", nullable = false)
     private RepoRelease base;
     private ChangeAction action;
-    private ResourceType resourceType;
     private String resourceLocation;
-    private String resourceId;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "resource_id", nullable = false)
+    private Resource resource;
     private Date date;
 
 }

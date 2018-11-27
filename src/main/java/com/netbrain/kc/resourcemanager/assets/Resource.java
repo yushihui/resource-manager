@@ -20,6 +20,14 @@ public class Resource {
     private GitRepo repo;
     private String ieVersion;
     private ResourceType type;
+
+    /***
+     * the full name = {repo}/{branch}/{resourceType}/{name}
+     */
     private String fullName;
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
 
 }

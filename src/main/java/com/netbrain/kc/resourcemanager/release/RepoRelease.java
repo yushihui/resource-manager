@@ -2,6 +2,7 @@ package com.netbrain.kc.resourcemanager.release;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.netbrain.kc.resourcemanager.deltachange.DeltaChange;
 import com.netbrain.kc.resourcemanager.repo.GitRepo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /***
  *
@@ -45,6 +48,12 @@ public class RepoRelease implements Serializable {
      * is this an initial release
      */
     private boolean isInitial;
+
+    @OneToMany(
+            mappedBy = "repo_release",
+            cascade = CascadeType.ALL
+    )
+    private List<DeltaChange> changes = new ArrayList<>();
 
     /***
      * A git release json example See {@linktourl https://developer.github.com/v3/repos/releases/#list-releases-for-a-repository}
