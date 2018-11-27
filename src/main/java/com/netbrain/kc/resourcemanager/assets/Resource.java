@@ -18,6 +18,7 @@ public class Resource {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "repo_id", nullable = false)
     private GitRepo repo;
+
     private String ieVersion;
     private ResourceType type;
 
@@ -27,7 +28,7 @@ public class Resource {
     private String fullName;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
 }
