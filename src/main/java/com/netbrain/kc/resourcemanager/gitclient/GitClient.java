@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -38,18 +39,23 @@ public class GitClient {
                 .build();
     }
 
-    public RepoRelease[] fetchReleases(String orgName, String repoName) {
-        return this.restTemplate.getForEntity(GIT_RELEASE_URL, RepoRelease[].class, orgName, repoName).getBody();
+    public List<RepoRelease> fetchReleases(String orgName, String repoName) {
+        RepoRelease[] repoReleasesArr = this.restTemplate.getForEntity(GIT_RELEASE_URL, RepoRelease[].class, orgName, repoName).getBody();
+        List<RepoRelease> repoReleases = new ArrayList<>();
+        if (repoReleasesArr != null) {
+            repoReleases = Arrays.asList(repoReleasesArr);
+        }
+        return repoReleases;
     }
 
     public ResponseEntity<RepoRelease[]> fetchCompare(String orgName, String repoName, String base, String head) {
         return this.restTemplate.getForEntity(GIT_COMPARE_URL, RepoRelease[].class, orgName, repoName, base, head);
     }
 
-    @Cacheable("releases")
-    public List<RepoRelease> fetchReleaseList(String orgName, String repoName) {
-        return Arrays.asList(fetchReleases(orgName, repoName));
-    }
+//    @Cacheable("releases")
+//    public List<RepoRelease> fetchReleaseList(String orgName, String repoName) {
+//        return Arrays.asList(fetchReleases(orgName, repoName));
+//    }
 
 
     private static class GithubAppTokenInterceptor implements ClientHttpRequestInterceptor {

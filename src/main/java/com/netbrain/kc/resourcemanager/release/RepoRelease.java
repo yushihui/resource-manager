@@ -6,6 +6,7 @@ import com.netbrain.kc.resourcemanager.deltachange.DeltaChange;
 import com.netbrain.kc.resourcemanager.repo.GitRepo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -24,34 +25,35 @@ import java.util.List;
 @Data
 @ToString
 @EqualsAndHashCode
+@NoArgsConstructor
 public class RepoRelease implements Serializable {
 
     // here the repo=owner+"/"+repo
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "repo_id", nullable = false)
     private GitRepo repo;
-    private final String name;
-    private final String tag;
+    private  String name;
+    private  String tag;
 
     @EqualsAndHashCode.Exclude
-    private final String description;
+    private  String description;
 
     @EqualsAndHashCode.Exclude
-    private final String releaseUrl;
+    private  String releaseUrl;
 
     @EqualsAndHashCode.Exclude
-    private final Date releaseAt;
+    private  Date releaseAt;
     /****
      * release id from github
      */
     @Id
-    private final long id;
+    private  long id;
     private ReleaseState state;
 
     /****
      * make sure using branch to label the IE version
      */
-    private final String ieVersion;
+    private String ieVersion;
 
     /***
      * is this an initial release
