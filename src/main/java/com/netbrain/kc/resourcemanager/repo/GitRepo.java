@@ -2,10 +2,7 @@ package com.netbrain.kc.resourcemanager.repo;
 
 
 import com.netbrain.kc.resourcemanager.release.RepoRelease;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,19 +15,19 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class GitRepo implements Serializable {
     @Id
     @Column(name = "id")
-    private String id;
+    private long id;
     private String name;
+    private String fullName;
     private String owner;
     private Date created;
     private Date updated;
     private String description;
     private RepoState state;
     private RepoType type;
-     //TODO join customer table
+    //TODO join customer table
     // private String customerId;
 
     @OneToMany(

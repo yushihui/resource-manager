@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
@@ -22,6 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.netbrain.kc.resourcemanager.gitclient.Consts.*;
 
+@Component
 public class GitClient {
 
     private final RestTemplate restTemplate;
@@ -36,8 +38,8 @@ public class GitClient {
                 .build();
     }
 
-    public ResponseEntity<RepoRelease[]> fetchReleases(String orgName, String repoName) {
-        return this.restTemplate.getForEntity(GIT_RELEASE_URL, RepoRelease[].class, orgName, repoName);
+    public RepoRelease[] fetchReleases(String orgName, String repoName) {
+        return this.restTemplate.getForEntity(GIT_RELEASE_URL, RepoRelease[].class, orgName, repoName).getBody();
     }
 
     public ResponseEntity<RepoRelease[]> fetchCompare(String orgName, String repoName, String base, String head) {
@@ -46,7 +48,7 @@ public class GitClient {
 
     @Cacheable("releases")
     public List<RepoRelease> fetchReleaseList(String orgName, String repoName) {
-        return Arrays.asList(fetchReleases(orgName, repoName).getBody());
+        return Arrays.asList(fetchReleases(orgName, repoName));
     }
 
 
